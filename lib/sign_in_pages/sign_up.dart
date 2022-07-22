@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:justchat/sign_in_pages/sign_in.dart';
+import 'package:justchat/net/authentication.dart';
+import 'package:provider/provider.dart';
+import '../net/authentication.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -7,6 +9,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +38,11 @@ class _SignUpState extends State<SignUp> {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 TextField(
-                  decoration: InputDecoration(hintText: 'Name'),
-                ),
-                TextField(
-                  decoration: InputDecoration(hintText: 'Age'),
-                ),
-                TextField(
+                  controller: emailController,
                   decoration: InputDecoration(hintText: 'Email'),
                 ),
                 TextField(
+                  controller: passwordController,
                   decoration: InputDecoration(hintText: 'Password'),
                 ),
                 TextField(
@@ -65,7 +65,14 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      context.read<AuthenticationService>().signUp(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                      await Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/', (Route<dynamic> route) => false);
+                    },
                     child: Text('Sign Up'),
                   ),
                 ),

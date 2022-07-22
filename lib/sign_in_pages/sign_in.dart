@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:justchat/net/authentication.dart';
 import 'package:justchat/sign_in_pages/sign_up.dart';
-import 'package:justchat/sign_in_pages/sign_in.dart';
 import 'package:justchat/sign_in_pages/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import '../net/authentication.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -9,6 +11,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +42,11 @@ class _SignInState extends State<SignIn> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(hintText: 'Email'),
               ),
               TextField(
+                controller: passwordController,
                 decoration: InputDecoration(hintText: 'Password'),
               ),
               SizedBox(
@@ -60,7 +66,12 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<AuthenticationService>().signIn(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                  },
                   child: Text('Sign In'),
                 ),
               ),

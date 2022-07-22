@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:justchat/sign_in_pages/sign_up.dart';
 
 class GoogleSignIn extends StatefulWidget {
   @override
