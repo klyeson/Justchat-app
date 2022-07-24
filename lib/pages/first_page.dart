@@ -16,21 +16,13 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   PageController _pageController = PageController();
-  List<Widget> _screens = [
+  final _screens = [
     Chat(),
     Search(),
     FirstProfile(),
   ];
   int _selectedIndex = 0;
-  void _onPageChanged(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
-  void _onItemTapped(int selectedIndex) {
-    _pageController.jumpToPage(selectedIndex);
-  }
 
   @override
   Widget build(BuildContext context) => FutureBuilder(
@@ -70,37 +62,17 @@ class _FirstPageState extends State<FirstPage> {
                     ),
                   ],
                 ),
-                body: PageView(
-                  controller: _pageController,
-                  children: _screens,
-                  onPageChanged: _onPageChanged,
-                  physics: NeverScrollableScrollPhysics(),
-                ),
+                body: _screens[_selectedIndex],
                 bottomNavigationBar: BottomNavigationBar(
-                  onTap: _onItemTapped,
-                  iconSize: 20,
+                  currentIndex: _selectedIndex,
+                  onTap: (index) => setState(() => _selectedIndex = index),
                   items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.chat_bubble,
-                          color:
-                              _selectedIndex == 0 ? primaryColor : Colors.grey,
-                        ),
-                        label: 'Chat'),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.search,
-                          color:
-                              _selectedIndex == 1 ? primaryColor : Colors.grey,
-                        ),
-                        label: 'Search'),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.person,
-                          color:
-                              _selectedIndex == 2 ? primaryColor : Colors.grey,
-                        ),
-                        label: 'Profile'),
+                    BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat',
+                    backgroundColor: Colors.blue),
+                    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search',
+                    backgroundColor: Colors.blue),
+                    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile',
+                    backgroundColor: Colors.blue),
                   ],
                 ),
               ),
