@@ -15,7 +15,6 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  PageController _pageController = PageController();
   final _screens = [
     Chat(),
     Search(),
@@ -23,11 +22,9 @@ class _FirstPageState extends State<FirstPage> {
   ];
   int _selectedIndex = 0;
 
-
   @override
   Widget build(BuildContext context) => FutureBuilder(
         builder: (context, snapshot) {
-          final firebaseUser = context.watch<User>();
           return MultiProvider(
             providers: [
               Provider<AuthenticationService>(
@@ -44,9 +41,18 @@ class _FirstPageState extends State<FirstPage> {
               theme: ThemeData(primaryColor: primaryColor),
               home: Scaffold(
                 appBar: AppBar(
+                  backgroundColor: Colors.lightBlue[300],
+                  leading: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                  ),
                   title: Center(
                     child: Text('JustChat'),
                   ),
+                  elevation: 0,
                   actions: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(right: 20.0),
@@ -67,12 +73,12 @@ class _FirstPageState extends State<FirstPage> {
                   currentIndex: _selectedIndex,
                   onTap: (index) => setState(() => _selectedIndex = index),
                   items: [
-                    BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat',
-                    backgroundColor: Colors.blue),
-                    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search',
-                    backgroundColor: Colors.blue),
-                    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile',
-                    backgroundColor: Colors.blue),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.chat), label: 'Chat'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.search), label: 'Search'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person), label: 'Profile'),
                   ],
                 ),
               ),
