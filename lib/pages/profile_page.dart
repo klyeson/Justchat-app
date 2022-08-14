@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:justchat/colors.dart';
-import 'package:justchat/net/authentication.dart';
 import 'package:justchat/pages/first_page.dart';
-import 'package:provider/provider.dart';
 
 class Bio extends StatefulWidget {
   @override
@@ -41,7 +39,7 @@ class _BioState extends State<Bio> {
               ),
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(hintText: 'Name'),
+                decoration: InputDecoration(hintText: 'First name'),
               ),
               TextField(
                 controller: ageController,
@@ -57,7 +55,7 @@ class _BioState extends State<Bio> {
                 controller: hobbyController,
                 minLines: 1,
                 maxLines: 10,
-                decoration: InputDecoration(hintText: 'Hobbies123'),
+                decoration: InputDecoration(hintText: 'Hobbies'),
               ),
               TextField(
                 controller: interestController,
@@ -66,37 +64,44 @@ class _BioState extends State<Bio> {
                 decoration: InputDecoration(hintText: 'Interests'),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    var firebaseUser = FirebaseAuth.instance.currentUser;
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(firebaseUser.uid)
-                        .update(
-                      {
-                        'name': nameController.text,
-                        'age': ageController.text,
-                        'about': aboutController.text,
-                        'hobbies': hobbyController.text,
-                        'interest': interestController.text
-                      },
-                    );
-                    await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => FirstPage()));
-                  },
-                  child: Text('Continue'),
-                  style: buttonStyle,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<AuthenticationService>().signOut();
-                  },
-                  child: Text('Sign Out'),
-                  style: buttonStyle,
+                padding: const EdgeInsets.only(top: 60),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                      width: MediaQuery.of(context).size.width),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonColor,
+                      elevation: 10,
+                      shadowColor: Colors.black,
+                      shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                    ),
+                    onPressed: () async {
+                      var firebaseUser = FirebaseAuth.instance.currentUser;
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(firebaseUser!.uid)
+                          .update(
+                        {
+                          'Name': nameController.text.trim(),
+                          'Age': ageController.text.trim(),
+                          'About': aboutController.text.trim(),
+                          'Hobbies': hobbyController.text.trim(),
+                          'Interests': interestController.text.trim(),
+                        },
+                      );
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => FirstPage()),
+                        ),
+                      );
+                    },
+                    child: Text('Continue'),
+                  ),
                 ),
               ),
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-var primaryColor = Colors.cyan[300];
+var primaryColor = Colors.blue[900];
 
-var buttonStyle = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(primaryColor));
+var buttonColor = Color(0xff0037eb);
+var backgroundColor = Colors.white;

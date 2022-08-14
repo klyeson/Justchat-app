@@ -6,37 +6,38 @@ class AuthenticationService {
 
   AuthenticationService(this._firebaseAuth);
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<String> signIn({String email, String password}) async {
+  Future signIn({required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      return 'Signed In';
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
+    } on FirebaseAuthException {}
+    return null;
   }
 
-  Future<String> signUp({String email, String password}) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      var firebaseUser = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection("users").doc(firebaseUser.uid).set({
-        'name': 'john',
-        'age': '20',
-        'about': 'young guy',
-        'hobbies': '',
-        'interest': ''
-      });
-      return 'Signed In';
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
+  Future signUp(
+      {required String email,
+      required String password,
+      required String name,
+      required int age,
+      required String about,
+      required String hobbies,
+      required String interests}) async {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    addUserDetails(name, age, about, hobbies, interests);
   }
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+  Future addUserDetails(String name, int age, String about, String hobbies,
+      String interests) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance.collection('users').doc(firebaseUser!.uid).set({
+      'Name': name,
+      'Age': age,
+      'About': about,
+      'Hobbies': hobbies,
+      'Interests': interests,
+    });
   }
 }

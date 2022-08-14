@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/category_selector.dart';
+import 'package:justchat/colors.dart';
+import 'message_template.dart';
 
 class Chat extends StatelessWidget {
-  const Chat();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue[300],
+      backgroundColor: backgroundColor,
       body: Column(
         children: [
-          CategorySelector(),
-          Expanded(
-            child: Container(
-              height: 400,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
-              ),
-            ),
-          )
+          TextButton(
+              child: Text('Chat messages'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Messages(),
+                  ),
+                );
+              }),
         ],
       ),
     );

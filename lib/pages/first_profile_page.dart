@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:justchat/colors.dart';
 import 'package:justchat/pages/profile_page.dart';
 
 class FirstProfile extends StatefulWidget {
-  const FirstProfile({Key key}) : super(key: key);
+  const FirstProfile();
 
   @override
   _FirstProfileState createState() => _FirstProfileState();
@@ -12,14 +13,17 @@ class FirstProfile extends StatefulWidget {
 class _FirstProfileState extends State<FirstProfile> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       body: Container(
+        color: backgroundColor,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
           child: ListView(
             children: [
+              Text(user.email!),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
               ),
@@ -32,9 +36,7 @@ class _FirstProfileState extends State<FirstProfile> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
               ),
-              TextFormField(
-                decoration: InputDecoration(hintText: 'Name'),
-              ),
+              Text('Name'),
               TextFormField(
                 decoration: InputDecoration(hintText: 'Age'),
               ),
@@ -57,20 +59,26 @@ class _FirstProfileState extends State<FirstProfile> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Bio(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Edit Profile',
-                  style: TextStyle(color: Colors.black),
+              ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                    width: MediaQuery.of(context).size.width),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: buttonColor,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Bio(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(color: Colors.white, letterSpacing: 1),
+                  ),
                 ),
-                style: buttonStyle,
               )
             ],
           ),

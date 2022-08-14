@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:justchat/net/authentication.dart';
 import 'package:justchat/pages/first_page.dart';
 import 'package:justchat/sign_in_pages/sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
-Future<void> main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -26,21 +26,22 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
           initialData: null,
-        ),
+        )
       ],
       child: MaterialApp(
           home: AuthenticationWrapper(), debugShowCheckedModeBanner: false),
     );
   }
 }
+//width: MediaQuery.of(context).size.width,
+//height: MediaQuery.of(context).size.height,
 
 class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({
-    Key key,
-  }) : super(key: key);
+  const AuthenticationWrapper({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
       return FirstPage();
@@ -48,6 +49,3 @@ class AuthenticationWrapper extends StatelessWidget {
     return SignIn();
   }
 }
-
-//width: MediaQuery.of(context).size.width,
-//height: MediaQuery.of(context).size.height,
