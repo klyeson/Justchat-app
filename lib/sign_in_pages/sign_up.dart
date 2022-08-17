@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:justchat/colors.dart';
 import 'package:justchat/pages/first_page.dart';
@@ -165,9 +166,9 @@ class _SignUpState extends State<SignUp> {
                   primary: buttonColor,
                   elevation: 10,
                   shadowColor: Colors.black,
-                  shape: const BeveledRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(30),
                     ),
                   ),
                 ),
@@ -191,14 +192,26 @@ class _SignUpState extends State<SignUp> {
                 child: Text('Sign Up'),
               ),
             ),
-            ConstrainedBox(
-              constraints: BoxConstraints.tightFor(
-                  width: MediaQuery.of(context).size.width),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Already have an account? Sign In"),
+            SizedBox(height: 12),
+            Center(
+              child: Text.rich(
+                TextSpan(
+                  text: "Already have an account?",
+                  style: TextStyle(color: Colors.black, fontSize: 15),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' Sign In',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = (() {
+                          Navigator.pop(context);
+                        }),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

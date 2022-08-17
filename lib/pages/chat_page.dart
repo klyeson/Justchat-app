@@ -10,15 +10,16 @@ class Chat extends StatelessWidget {
       body: Column(
         children: [
           TextButton(
-              child: Text('Chat messages'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Messages(),
-                  ),
-                );
-              }),
+            child: Text('Chat messages'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Messages(),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
