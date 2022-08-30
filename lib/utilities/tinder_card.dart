@@ -1,18 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:swipe_cards/swipe_cards.dart';
-
-import '../net/authentication.dart';
 
 class TinderCard extends StatelessWidget {
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('users');
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       body: StreamBuilder(
           stream: _users.snapshots(),

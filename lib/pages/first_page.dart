@@ -13,11 +13,7 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  final _screens = [
-    Chat(),
-    Search(),
-    FirstProfile(),
-  ];
+  final _screens = [Chat(), Search(), FirstProfile()];
   int _selectedIndex = 0;
 
   @override

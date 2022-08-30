@@ -40,4 +40,54 @@ class AuthenticationService {
       'Interests': interests,
     });
   }
+
+  Future updateName({required String name}) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser?.uid)
+        .update({
+      'Name': name,
+    });
+  }
+
+  Future updateAge({required int age}) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser?.uid)
+        .update({
+      'Age': age,
+    });
+  }
+
+  Future updateAbout({required String about}) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser?.uid)
+        .update({
+      'About': about,
+    });
+  }
+
+  Future updateHobbies({required String hobbies}) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser?.uid)
+        .update({
+      'Hobbies': hobbies,
+    });
+  }
+
+  Future updateInterests({required String interests}) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser?.uid)
+        .update({
+      'Interests': interests,
+    });
+  }
 }

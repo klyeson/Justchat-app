@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:justchat/colors.dart';
 import 'package:justchat/pages/first_page.dart';
+import 'package:justchat/pages/first_profile_page.dart';
 import 'package:provider/provider.dart';
 import '../net/authentication.dart';
 
@@ -176,11 +177,11 @@ class _SignUpState extends State<SignUp> {
                   context.read<AuthenticationService>().signUp(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
-                        name: nameController.text.trim(),
+                        name: nameController.text.trim().capitalize(),
                         age: int.parse(ageController.text.trim()),
-                        about: aboutController.text.trim(),
-                        hobbies: hobbiesController.text.trim(),
-                        interests: interestsController.text.trim(),
+                        about: aboutController.text.trim().capitalize(),
+                        hobbies: hobbiesController.text.trim().capitalize(),
+                        interests: interestsController.text.trim().capitalize(),
                       );
                   Navigator.push(
                     context,
