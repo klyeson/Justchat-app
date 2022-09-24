@@ -1,40 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:justchat/net/user.dart';
 
 class TinderCard extends StatelessWidget {
-  final CollectionReference _users =
-      FirebaseFirestore.instance.collection('users');
   @override
   Widget build(BuildContext context) {
+    final users = FirebaseAuth.instance.currentUser;
+    Future<UserData?> readUsers() async {
+      final docUser =
+          FirebaseFirestore.instance.collection('users').doc(users!.uid);
+      final snapshot = await docUser.get();
+
+      if (snapshot.exists) {
+        return UserData.fromJson(snapshot.data()!);
+      }
+    }
+
     return Scaffold(
-      body: StreamBuilder(
-          stream: _users.snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              return ListView.builder(
-                itemCount: streamSnapshot.data!.docs.length,
-                itemBuilder: ((context, index) {
-                  final DocumentSnapshot documentSnapshot =
-                      streamSnapshot.data!.docs[index];
-                  return Container(
-                    height: 400,
-                    width: 400,
-                    color: Colors.grey,
-                    child: Column(
-                      children: [
-                        Text(
-                          documentSnapshot['Name'],
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
-    );
+        body: FutureBuilder<UserData?>(
+      future: readUsers(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final otherUserData = snapshot.data;
+          return otherUserData == null
+              ? Center(child: Text('No User'))
+              : ListView(
+                  children: [
+                    Row(
+                      children: [Text(otherUserData.name)],
+                    )
+                  ],
+                );
+        }
+        return CircularProgressIndicator();
+      },
+    ));
   }
 }
